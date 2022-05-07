@@ -1,0 +1,119 @@
+<html>
+  <head>
+    <script>
+    </script>
+  </head>
+  <body>
+    <label for = "RSAKey1L">RSA first prime number Length
+      <input type = "text" id = "RSAKey1L"></label>
+      <br><br>
+    <label for = "RSAKey2L">RSA second prime number Length
+      <input type = "text" id = "RSAKey2L"> </label>
+      <br><br>
+    <label for = "TextEncryption">Text to be encrypted:
+      <input type = "text" id = "TextEncryption"> </label>
+      <br><br>
+    <p id = "demo">This is the encrypted text: </p>
+    <p id = "demo2">This is the decrypted text: </p>
+    <button onclick = "encrypt()">Click to Encrypt </button>
+    
+    <script>
+      function gcd(a, p)
+      {
+        let temp = a%p;
+        if (temp == 0) {
+          return p;
+        }
+        else
+        {
+          return gcd (p, temp);
+        }
+      }
+      function findd(e, phi)
+      {
+        while (true)
+        {
+          let d = getRndInteger(2, phi-1);
+          if ((d*e)%phi ===1)
+          {
+            return d;
+          }
+        }
+      }
+      function finde(phi)
+      {
+        while (true)
+        {
+          let e = getRndInteger(2, phi-1);
+          if (gcd(e, phi) ===1)
+          {
+            return e;
+          }
+        }
+      }
+      function TypsIsInt(x)
+      {
+        return typeofx === "number" && isFinite(x);
+      }
+      function encrypt()
+      {
+        let x = ParseInt(document.getElementById("RSAKey1L").value);
+        let y = ParseInt(document.getElementById("RSAKey2L").value);
+        if (!TypeIsInt(x) && !TypeIsInt(y))
+        {
+          document.getElementById("demo").innerHTML = "The RSA prime numbers length is not a number";
+        }
+        else if (!TypeIsInt(x))
+        {
+          document.getElementById("demo").innerHTML = "One of the RSA prime numbers length is not a number";
+        }
+        else if (!TypeIsInt(y))
+        {
+          document.getElementById("demo").innerHTML = "One of the RSA prime numbers length is not a number";
+        }
+        else
+        {
+          if ((Math.floor(x) !== x || x <= 0) && (Math.floor(y) !== y || y<=0))
+          {
+            document.getElementById("demo").innerHTML = "The RSA prime numbers length can not be less than zero";
+          }
+          else if ((Math.floor(x) !== x || x <= 0))
+          {
+            document.getElementById("demo").innerHTML = "The RSA prime numbers length can not be less than zero";
+          }
+          else if ((Math.floor(y) !== y || y <= 0))
+          {
+            document.getElementById("demo").innerHTML = "The RSA prime numbers length can not be less than zero";
+          }
+          else
+          {
+            textencrypted = "";
+            textdecrypted = "";
+            let first = findprime(x);
+            let second = findprime(y);
+            let n = first * second;
+            let phi = (first-1)*(second-1);
+            let e = finde(phi);
+            x = 1;
+            y = 1;
+            let d = findd(e, phi);
+            f = e.toString(2);
+            g = d.toString(2);
+            arr = new Array(f.length);
+            arrdecipher = new Array(g.length);
+            let text = TextEncryption.value;
+            array = text.split("");
+            for (i = 0; i<array.length; i++)
+            {
+              ascii = array[i].charCodeAt(0);
+              arr[0] = ascii;
+              for (j = 1; j< arr.length; j++)
+              {
+                
+              }
+            }
+          }
+          
+        }
+        
+      }
