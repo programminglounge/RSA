@@ -91,6 +91,10 @@
             textdecrypted = "";
             let first = findprime(x);
             let second = findprime(y);
+            while (first === second)
+            {
+              second = findprime(y);
+            }
             let n = first * second;
             let phi = (first-1)*(second-1);
             let e = finde(phi);
