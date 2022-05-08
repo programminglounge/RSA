@@ -1,7 +1,7 @@
 # RSA
 
 In this repository I implement the RSA cryptosystem using javascript and plain HTML to practice working on other languages aside from c++ and python. 
-In this project I am using the / symbol as a delimiter of texts. the HTML file consists of a few functions (like gcd, finding a decryption value, finding an encryption value, finding a prime and etc.) which each are needed to implement the RSA cryptosystem. <br>
+In this project I am using the / symbol as a delimiter of texts. the HTML file consists of a few functions (like gcd, finding a decryption value, finding an encryption value, finding a prime and etc.) which each are needed to implement the RSA cryptosystem. <br><br>
 In the RSA cryptosystem we need to find two prime numbers p and q such that p and q are not equal to eachother <br>
 We then multiply p and q together to form the number n. <br>
 We calculate the phi(n) function which is (p-1)*(q-1) <br>
