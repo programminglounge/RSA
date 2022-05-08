@@ -1,0 +1,222 @@
+<html>
+  <body>
+    <script>
+      function newtonIteration (n, x0) 
+      {
+        const x1 = ((n/x0)+x0) >> 1n;
+        if (x0 === x1 || x0 ===(x1-1n))
+        {
+          return x0;
+        }
+        return newtonIteration (n, x1);
+      }
+      
+      function sqrt(value)
+      {
+        if (value < 0n)
+        {
+          throw 'square root of negative numbers is not supported'
+        }
+        if (value<2n)
+        {
+          return value
+        }
+        return newtonIteration(value, 1n);
+      }
+      
+      
+      function gcd(a, p)
+      {
+        let temp = a%p;
+        if (temp === 0n)
+        {
+          return p;
+        }
+        else
+        {
+          
+        }
+      }
+      
+      function findd(e, phi)
+      {
+        while (true)
+        {
+          let d = getRndInteger(2, phi-1n);
+          if ((d*e)%phi ===1n)
+          {
+            return d;
+          }
+        }
+      }
+      
+      function finde(phi)
+      {
+        while (true)
+        {
+          let e = getRndInteger(2, phi-1n);
+          if (gcd(e, phi) ===1n)
+          {
+            return e;
+          }
+        }
+      }
+      
+      function TypsIsInt(x)
+      {
+        return typeofx === "number" && isFinite(x);
+      }
+      
+      
+      function encrypt()
+      {
+        let x = ParseInt(document.getElementById("RSAKey1L").value);
+        let y = ParseInt(document.getElementById("RSAKey2L").value);
+        if (!TypeIsInt(x) && !TypeIsInt(y))
+        {
+          document.getElementById("demo").innerHTML = "The RSA prime numbers length is not a number";
+        }
+        else if (!TypeIsInt(x))
+        {
+          document.getElementById("demo").innerHTML = "One of the RSA prime numbers length is not a number";
+        }
+        else if (!TypeIsInt(y))
+        {
+          document.getElementById("demo").innerHTML = "One of the RSA prime numbers length is not a number";
+        }
+        else
+        {
+          if ((Math.floor(x) !== x || x <= 0) && (Math.floor(y) !== y || y<=0))
+          {
+            document.getElementById("demo").innerHTML = "The RSA prime numbers length can not be less than zero";
+          }
+          else if ((Math.floor(x) !== x || x <= 0))
+          {
+            document.getElementById("demo").innerHTML = "The RSA prime numbers length can not be less than zero";
+          }
+          else if ((Math.floor(y) !== y || y <= 0))
+          {
+            document.getElementById("demo").innerHTML = "The RSA prime numbers length can not be less than zero";
+          }
+          else
+          {
+            textencrypted = "";
+            text_encrypted_ascii_binary_full = "";
+            text_encrypted_ascii_binary = "";
+            text_encrypted_ascii = "";
+            text_encrypted_ascii_string = "";
+            
+            text_encrypted_extended_ascii_binary_full = "";
+            text_encrypted_extended_ascii_binary = "";
+            
+            
+            textdecrypted = "";
+            let first = findprime(x);
+            let second = findprime(y);
+            while (first === second)
+            {
+              second = findprime(y);
+            }
+            let n = first * second;
+            let phi = (first-1)*(second-1);
+            let e = finde(phi);
+            x = 1;
+            y = 1;
+            let d = findd(e, phi);
+            f = e.toString(2);
+            g = d.toString(2);
+            arr = new Array(f.length);
+            arrdecipher = new Array(g.length);
+            let text = TextEncryption.value;
+            array = text.split("");
+            for (i = 0; i<array.length; i++)
+            {
+              ascii = array[i].charCodeAt(0);
+              arr[0] = ascii;
+              for (j = 1; j< arr.length; j++)
+              {
+                arr[j] = ((arr[j-1])*(arr[j-1])%n);
+              }
+              arr.reverse();
+              for (j = 0; j<arr.length; j++)
+              {
+                if (f[j] == 1)
+                {
+                  x = (x * arr[j]) % n;
+                }
+              }
+              textencrypted = textencrypted.concat(x.toString());
+              textencrypted = textencrypted.concat("/");
+              x = 1;
+            }
+            document.getElementById("demo").innerHTML = textencrypted;
+            
+            const ciphertext = textencrypted.split('/');
+            for (j = 0; j < ciphertext.length-1; j++)
+            {
+              y = parseInt(ciphertext[j]);
+              arrdecipher[0] = y;
+              for (k = 1; k<arrdecipher.length; k++)
+              {
+                arrdecipher[k] = ((arrdecipher[k-1])*(arrdecipher[k-1]))%n;
+              }
+              arrdecipher.reverse();
+              y = 1;
+              for (k = 0; k<arrdecipher.length; k++) 
+              {
+                if (g[k] == 1)
+                {
+                  y = (y * arrdecipher[k])%n;
+                }
+              }
+              y = String.fromCharCode(y);
+              textdecrypted = textdecrypted.concat(y.toString());
+              textdecrypted = textdecrypted.concat("%");
+            }
+            document.getElementById("demo2").innerHTML = textdecrypted;
+          }
+          
+        }
+        
+      }
+      
+      function findprime(x)
+      {
+        let p = Math.pow(10, x)+1;
+        let q = Math.pow(10, x+1)-1;
+        while (true)
+        {
+          let random = getRndInteger(p, q);
+          let isPrime = true;
+          if (random > 1) {
+            for (let i = 2n; i<=sqrt(random); i++)
+            {
+              if (random % i === 0n) 
+              {
+                isPrime = false;
+                break;
+              }
+            }
+          }
+          if (isPrime === false)
+          {
+          }
+          else
+          {
+            return random;
+          }
+        }
+      }
+      function getRndInteger(min, max)
+      {
+        max2 = BigInt(max);
+        min2 = BigInt(min);
+        myrandom = (Math.random() * Math.pow(10, 30)); // number here must match the one on line 9
+        myrandom_floor = Math.floor(myrandom);
+        myrandom2 = BigInt(myrandom_floor)*(max2-min2+1n);
+        myrandom3 = myrandom2 / (10n ** 30);
+        return myrandom3 + min2;
+      }
+    </script>
+  </body>
+</html>
