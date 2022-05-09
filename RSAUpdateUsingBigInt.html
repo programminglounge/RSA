@@ -108,20 +108,24 @@
             
             text_encrypted_extended_ascii_binary_full = "";
             text_encrypted_extended_ascii_binary = "";
+            text_encrypted_extended_ascii = "";
+            text_encrypted_entended_ascii_string = "";
             
+            text_encrypted_extended_ascii_string_custom = "";
+            text_encrypted_ascii_string_custom = ""
+            array_numbers_custom_extended_ascii = new Array ();
             
-            textdecrypted = "";
             let first = findprime(x);
             let second = findprime(y);
             while (first === second)
             {
               second = findprime(y);
             }
-            let n = first * second;
-            let phi = (first-1)*(second-1);
+            let n = BigInt(first * second);
+            let phi = BigInt((first-1n)*(second-1n));
             let e = finde(phi);
-            x = 1;
-            y = 1;
+            x = 1n;
+            y = 1n;
             let d = findd(e, phi);
             f = e.toString(2);
             g = d.toString(2);
@@ -132,7 +136,7 @@
             for (i = 0; i<array.length; i++)
             {
               ascii = array[i].charCodeAt(0);
-              arr[0] = ascii;
+              arr[0] = BigInt(ascii);
               for (j = 1; j< arr.length; j++)
               {
                 arr[j] = ((arr[j-1])*(arr[j-1])%n);
@@ -145,8 +149,69 @@
                   x = (x * arr[j]) % n;
                 }
               }
-              textencrypted = textencrypted.concat(x.toString());
-              textencrypted = textencrypted.concat("/");
+              text_encrypted = text_encrypted.concat(x.toString());
+              text_encrypted = text_encrypted.concat("/");
+              text_encrypted_ascii_binary_full = x.toString(2);
+              text_encrypted_extended_ascii_binary_full = x.tostring(2);
+              //extendedascii
+              while (text_encrypted_entended_ascii_binary_full.length % 8 != 0)
+              {
+                text_encrypted_entended_ascii_binary_full = "0"+ text_encrypted_entended_ascii_binary_full;
+              }
+              
+              //ascii
+              while (text_encrypted_ascii_binary_full.length % 7 != 0)
+              {
+                text_encrypted_ascii_binary_full = "0"+ text_encrypted_ascii_binary_full;
+              }
+              
+              //ascii
+              for (k = 0; k<text_encrypted_ascii_binary_full.length; k= k+7)
+              {
+                text_encrypted_ascii_binary = text_encrypted_ascii_binary_full.substring (k, k+7);
+                text_encrypted_ascii = String.fromCharCode (parseInt(text_encrypted_ascii_binary, 2));
+                text_encrypted_ascii_string = text_encrypted_ascii_string + text_encrypted_ascii;
+              }
+              
+              //extended ascii
+              for (k = 0; k<text_encrypted_extended_ascii_binary_full.length; k= k+8)
+              {
+                text_encrypted_extended_ascii_binary = text_encrypted_extended_ascii_binary_full.substring (k, k+8);
+                text_encrypted_extended_ascii = String.fromCharCode (parseInt(text_encrypted_extended_ascii_binary, 2));
+                text_encrypted_extended_ascii_string = text_encrypted_extended_ascii_string + text_encrypted_extended_ascii;
+              }
+              
+              
+              //custom ascii
+              for (k = 0; k<text_encrypted_ascii_binary_full.length; k= k+7)
+              {
+                text_encrypted_ascii_binary = text_encrypted_ascii_binary_full.substring(k, k+7);
+                encrypted_ascii_binary_integer = parseInt(text_encrypted_ascii_binary, 2);
+                if ( encrypted_ascii_binary_integer != 127 && encrypted_ascii_binary_integer>=32)
+                {
+                  text_encrypted_ascii = String.fromCharCode(encrypted_ascii_binary_integer);
+                }
+                else if (encrypted_ascii_binary_integer < 32 && encrypted_ascii_binary_integer > 10)
+                {
+                  text_encrypted_ascii = encrypted_ascii_binary_integer.toString();
+                }
+                else if (encrypted_ascii_binary_integer < 10)
+                {
+                  text_encrypted_ascii = encrypted_ascii_binary_integer.toString() + "00";
+                }
+                
+                else if (encrypted_ascii_binary_integer == 10)
+                {
+                  text_encrypted_ascii = encrypted_ascii_binary_integer.toString() + "1";
+                }
+                else if (encrypted_ascii_binary_integer == 127)
+                {
+                  text_encrypted_ascii = encrypted_ascii_binary_integer.toString();
+                }
+                text_encrypted_ascii_string_custom = text_encrypted_ascii_string_custom + text_encrypted_ascii
+                
+              }
+                
               x = 1;
             }
             document.getElementById("demo").innerHTML = textencrypted;
