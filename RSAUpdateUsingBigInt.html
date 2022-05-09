@@ -1,5 +1,19 @@
 <html>
   <body>
+    <label for = "RSAKey1L">RSA first prime number Length
+      <input type = "text" id = "RSAKey1L"></label>
+      <br><br>
+    <label for = "RSAKey2L">RSA second prime number Length
+      <input type = "text" id = "RSAKey2L"> </label>
+      <br><br>
+    <label for = "TextEncryption">Text to be encrypted:
+      <input type = "text" id = "TextEncryption"> </label>
+      <br><br>
+    <p id = "demo">This is the encrypted text using RSA: </p>
+    <p id = "demo2">This is the decrypted text using extended ascii encoding: </p>
+    <p id = "demo3">This is the decrypted text using ascii encoding: </p>
+    <button onclick = "multiply()">Click to Encrypt </button>
+
     <script>
       function newtonIteration (n, x0) 
       {
@@ -227,8 +241,8 @@
             text_decrypted_custom_ascii = decode_extended_custom_ascii (ciphertext_extended_ascii_string, n, text_encrypted_extended_ascii_binary_full);
             text_decrypted_regular = decode_message(ciphertext, n, g);
             
-            document.getElementById("demo2").innerHTML = text_decrypted_custom_ascii;
-            document.getElementById("demo3").innerHTML = text_decrypted_regular;
+            document.getElementById("demo2").innerHTML = document.getElementById("demo2").innerHTML + " " + text_decrypted_custom_ascii;
+            document.getElementById("demo3").innerHTML = document.getElementById("demo3").innerHTML + " " + text_decrypted_regular;
             
           }
           
@@ -274,7 +288,110 @@
         return text_encrypted_extended_ascii_string_custom;
       }
       
+      function decode_message(ciphertext, n, g1)
+      {
+        text_decrypted = "";
+        arrdecipher2 = new Array(g.length);
+        for (j = 0; j<ciphertext.length-1; j++)
+        {
+          y = BigInt(ciphertext[j]);
+          for (k = 1; k<arrdecipher2.length; k++)
+          {
+            arrdecipher2[k] = ((arrdecipher2[k-1])*(arrdecipher2[k-1])%n);
+          }
+          arrdecipher2.reverse();
+          y = 1n;
+          for (k = 0; k<arrdecipher.length; k++)
+          {
+            if (g1[k] == 1)
+            {
+              y = (y*arrdecipher2[k]%n;
+            }
+          }
+          res = String.fromCharCode(Number(y));
+          text_decrypted = text_decrypted.concat(res.toString());
+          text_decrypted = text_decrypted.concat("/");
+        }
+        return text_decrypted;
+      }
       
+      function decode_extended_custom_ascii (ciphertext_extended_ascii_string, n)
+      {
+        textdecrypyed = "";
+        i1 = 0;
+        k1 = 0;
+        encrypted_number = "";
+        for (j = 0; j<ciphertext_extended_ascii_string.length-1; j++)
+        {
+          number = Number.parseInt(ciphertext_extended_ascii_string[j]);
+          if (isNaN(number))
+          {
+            bits_number = ciphertext_extended_ascii_string[j].charCodeAt(0);
+          }
+          else 
+          {
+            if (number > 10 && number<32)
+            {
+              bits_number = number;
+            }
+            else if (number < 10)
+            {
+              bits_number = ciphertext_extended_ascii_string[j].charCodeAt(0);
+            }
+            else if (number == 101)
+            {
+              bits_number = 10;
+            }
+            else if (number == 102)
+            {
+              bits_number = 0;
+            }
+            else if (number == 127)
+            {
+              bits_number = 127;
+            }
+            else
+            {
+              bits_number = Math.floor(number/100);
+            }
+          }
+          if (k1<array_numbers_custom_extended_ascii[i1])
+          {
+            number_parts = bits_number.toString(2);
+            while (number_parts.length % 8 != 0)
+            {
+              number_parts = "0" + number_parts;
+            }
+            encrypted_number = encrypted_number + number_parts;
+            k1 = k1+1;
+          }
+          if (k1 == array_numbers_custom_extended_ascii[i1])
+          {
+            y = BigInt(Number.parseInt(encrypted_number, 2));
+            encrypted_number = "";
+            k1 = 0;
+            i1 = i1+1;
+            arrdecipher[0] = y;
+            for (k = 1; k<arrdecipher.length; k++)
+            {
+              arrdecipher[k] = ((arrdecipher[k-1])*(arrdecipher[k-1])%n);
+            }
+            arrdecipher.reverse();
+            y = 1n;
+            for (k = 0; k<arrdecipher.length; k++)
+            {
+              if (g[k] == 1)
+              {
+                y = (y*arrdecipher[k])%n;
+              }
+            }
+            res = String.fronCharCode(parseInt(y));
+            textdecrypted = textdecrypted.concat(res.toString());
+            textdecrypted = textdecrypted.concat("/");
+          }
+        }
+        return textdecrypted;  
+      }
       
       function findprime(x)
       {
