@@ -209,41 +209,72 @@
                   text_encrypted_ascii = encrypted_ascii_binary_integer.toString();
                 }
                 text_encrypted_ascii_string_custom = text_encrypted_ascii_string_custom + text_encrypted_ascii
+                text_encrypted_ascii_string_custom = text_encrypted_ascii_string_custom.concat("/");
                 
               }
-                
-              x = 1;
+              //customextendedascii
+              array_numbers_custom_extended_ascii.push(Math.floor(text_encrypted_extended_ascii_binary_full.length/8));
+              text_encrypted_extended_ascii_string_custom = encrypt_custom_extended_ascii(text_encrypted_extended_ascii_binary_full);
+              text_encrypted_ascii_string = text_encrypted_ascii_string.concat("/");
+              text_encrypted_extended_ascii_string = text_encrypted_extended_ascii_string.concat("/");
+              
+              x = 1n;
             }
-            document.getElementById("demo").innerHTML = textencrypted;
+            document.getElementById("demo").innerHTML = text_encrypted;
             
-            const ciphertext = textencrypted.split('/');
-            for (j = 0; j < ciphertext.length-1; j++)
-            {
-              y = parseInt(ciphertext[j]);
-              arrdecipher[0] = y;
-              for (k = 1; k<arrdecipher.length; k++)
-              {
-                arrdecipher[k] = ((arrdecipher[k-1])*(arrdecipher[k-1]))%n;
-              }
-              arrdecipher.reverse();
-              y = 1;
-              for (k = 0; k<arrdecipher.length; k++) 
-              {
-                if (g[k] == 1)
-                {
-                  y = (y * arrdecipher[k])%n;
-                }
-              }
-              y = String.fromCharCode(y);
-              textdecrypted = textdecrypted.concat(y.toString());
-              textdecrypted = textdecrypted.concat("%");
-            }
-            document.getElementById("demo2").innerHTML = textdecrypted;
+            const ciphertext = text_encrypted.split('/');
+            const ciphertext_extended_ascii_string = text_encrypted_extended_ascii_string_custom.split('/');
+            text_decrypted_custom_ascii = decode_extended_custom_ascii (ciphertext_extended_ascii_string, n, text_encrypted_extended_ascii_binary_full);
+            text_decrypted_regular = decode_message(ciphertext, n, g);
+            
+            document.getElementById("demo2").innerHTML = text_decrypted_custom_ascii;
+            document.getElementById("demo3").innerHTML = text_decrypted_regular;
+            
           }
           
         }
         
       }
+      
+      function encrypt_custom_extended_ascii(my_text_encrypted_extended_ascii_binary_full)
+      {
+        text_encrypted_extended_ascii = "";
+        for (k = 0; k<my_text_encrypted_extended_ascii_binary_full.length; k = k+8)
+        {
+          text_encrypted_extended_ascii_binary = text_encrypted_extended_ascii_binary_full.substring(k, k+8);
+          encrypted_extended_ascii_binary_integer = parseInt(text_encrypted_extended_ascii_binary, 2);
+          if (encrypted_extended_ascii_binary_integer != 127 && encrypted_extended_ascii_binary_integer >=32)
+          {
+            text_encrypted_extended_ascii = String.fromCharCode (encrypted_extended_ascii_binary_integer);
+          }
+          else if (encrypted_extended_ascii_binary_integer <32 && encrypted_extended_ascii_binary_integer > 10)
+          {
+            text_encrypted_extended_ascii = encrypted_extended_ascii_binary_integer.toString();           
+          }
+          else if (encrypted_extended_ascii_binary_integer <10 && encrypted_extended_ascii_binary_integer > 0)
+          {
+            text_encrypted_extended_ascii = encrypted_extended_ascii_binary_integer.toString() + "00";           
+          }
+          else if (encrypted_extended_ascii_binary_integer == 10)
+          {
+            text_encrypted_extended_ascii = encrypted_extended_ascii_binary_integer.toString() + "1";           
+          }
+          else if (encrypted_extended_ascii_binary_integer == 127)
+          {
+            text_encrypted_extended_ascii = encrypted_extended_ascii_binary_integer.toString();           
+          }
+          else if (encrypted_extended_ascii_binary_integer == 0)
+          {
+            text_encrypted_extended_ascii = "102";           
+          }
+          text_encrypted_extended_ascii_string_custom = text_encrypted_extended_ascii_string_custom + text_encrypted_extended_ascii;
+          text_encrypted_extended_ascii_string_custom = text_encrypted_extended_ascii_string_custom.concat("/");
+          
+        }
+        return text_encrypted_extended_ascii_string_custom;
+      }
+      
+      
       
       function findprime(x)
       {
