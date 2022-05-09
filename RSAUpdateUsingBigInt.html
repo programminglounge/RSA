@@ -12,7 +12,7 @@
     <p id = "demo">This is the encrypted text using RSA: </p>
     <p id = "demo2">This is the decrypted text using extended ascii encoding: </p>
     <p id = "demo3">This is the decrypted text using ascii encoding: </p>
-    <button onclick = "multiply()">Click to Encrypt </button>
+    <button onclick = "encrypt()">Click to Encrypt </button>
 
     <script>
       function newtonIteration (n, x0) 
@@ -48,7 +48,7 @@
         }
         else
         {
-          
+           return gcd(p, temp);
         }
       }
       
@@ -76,16 +76,16 @@
         }
       }
       
-      function TypsIsInt(x)
+      function TypeIsInt(x)
       {
-        return typeofx === "number" && isFinite(x);
+        return typeof(x) === "number" && isFinite(x);
       }
       
       
       function encrypt()
       {
-        let x = ParseInt(document.getElementById("RSAKey1L").value);
-        let y = ParseInt(document.getElementById("RSAKey2L").value);
+        let x = parseInt(document.getElementById("RSAKey1L").value);
+        let y = parseInt(document.getElementById("RSAKey2L").value);
         if (!TypeIsInt(x) && !TypeIsInt(y))
         {
           document.getElementById("demo").innerHTML = "The RSA prime numbers length is not a number";
@@ -114,7 +114,7 @@
           }
           else
           {
-            textencrypted = "";
+            text_encrypted = "";
             text_encrypted_ascii_binary_full = "";
             text_encrypted_ascii_binary = "";
             text_encrypted_ascii = "";
@@ -123,7 +123,7 @@
             text_encrypted_extended_ascii_binary_full = "";
             text_encrypted_extended_ascii_binary = "";
             text_encrypted_extended_ascii = "";
-            text_encrypted_entended_ascii_string = "";
+            text_encrypted_extended_ascii_string = "";
             
             text_encrypted_extended_ascii_string_custom = "";
             text_encrypted_ascii_string_custom = ""
@@ -140,11 +140,12 @@
             let e = finde(phi);
             x = 1n;
             y = 1n;
-            let d = findd(e, phi);
+            let d = findd(e, phi);            
             f = e.toString(2);
             g = d.toString(2);
             arr = new Array(f.length);
             arrdecipher = new Array(g.length);
+	    
             let text = TextEncryption.value;
             array = text.split("");
             for (i = 0; i<array.length; i++)
@@ -166,11 +167,11 @@
               text_encrypted = text_encrypted.concat(x.toString());
               text_encrypted = text_encrypted.concat("/");
               text_encrypted_ascii_binary_full = x.toString(2);
-              text_encrypted_extended_ascii_binary_full = x.tostring(2);
+              text_encrypted_extended_ascii_binary_full = x.toString(2);
               //extendedascii
-              while (text_encrypted_entended_ascii_binary_full.length % 8 != 0)
+              while (text_encrypted_extended_ascii_binary_full.length % 8 != 0)
               {
-                text_encrypted_entended_ascii_binary_full = "0"+ text_encrypted_entended_ascii_binary_full;
+                text_encrypted_extended_ascii_binary_full = "0"+ text_encrypted_extended_ascii_binary_full;
               }
               
               //ascii
@@ -195,7 +196,7 @@
                 text_encrypted_extended_ascii_string = text_encrypted_extended_ascii_string + text_encrypted_extended_ascii;
               }
               
-              
+              console.log ("Made it to here");
               //custom ascii
               for (k = 0; k<text_encrypted_ascii_binary_full.length; k= k+7)
               {
@@ -295,6 +296,7 @@
         for (j = 0; j<ciphertext.length-1; j++)
         {
           y = BigInt(ciphertext[j]);
+          arrdecipher2[0] = y;
           for (k = 1; k<arrdecipher2.length; k++)
           {
             arrdecipher2[k] = ((arrdecipher2[k-1])*(arrdecipher2[k-1])%n);
@@ -317,7 +319,7 @@
       
       function decode_extended_custom_ascii (ciphertext_extended_ascii_string, n)
       {
-        textdecrypyed = "";
+        textdecrypted = "";
         i1 = 0;
         k1 = 0;
         encrypted_number = "";
@@ -385,7 +387,7 @@
                 y = (y*arrdecipher[k])%n;
               }
             }
-            res = String.fronCharCode(parseInt(y));
+            res = String.fromCharCode(parseInt(y));
             textdecrypted = textdecrypted.concat(res.toString());
             textdecrypted = textdecrypted.concat("/");
           }
@@ -427,7 +429,7 @@
         myrandom = (Math.random() * Math.pow(10, 30)); // number here must match the one on line 9
         myrandom_floor = Math.floor(myrandom);
         myrandom2 = BigInt(myrandom_floor)*(max2-min2+1n);
-        myrandom3 = myrandom2 / (10n ** 30);
+        myrandom3 = myrandom2 / (10n ** 30n);
         return myrandom3 + min2;
       }
     </script>
