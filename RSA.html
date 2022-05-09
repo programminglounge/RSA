@@ -51,14 +51,14 @@
           }
         }
       }
-      function TypsIsInt(x)
+      function TypeIsInt(x)
       {
-        return typeofx === "number" && isFinite(x);
+        return typeof(x) === "number" && isFinite(x);
       }
       function encrypt()
       {
-        let x = ParseInt(document.getElementById("RSAKey1L").value);
-        let y = ParseInt(document.getElementById("RSAKey2L").value);
+        let x = parseInt(document.getElementById("RSAKey1L").value);
+        let y = parseInt(document.getElementById("RSAKey2L").value);
         if (!TypeIsInt(x) && !TypeIsInt(y))
         {
           document.getElementById("demo").innerHTML = "The RSA prime numbers length is not a number";
@@ -149,7 +149,7 @@
               }
               y = String.fromCharCode(y);
               textdecrypted = textdecrypted.concat(y.toString());
-              textdecrypted = textdecrypted.concat("%");
+              textdecrypted = textdecrypted.concat("/");
             }
             document.getElementById("demo2").innerHTML = textdecrypted;
           }
